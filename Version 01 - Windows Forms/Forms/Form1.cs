@@ -80,7 +80,7 @@ namespace Version_01___Windows_Forms
                                         backupSvc.Execute();
                                         string date = DateTime.Today.ToString();
                                         backup.DataUltimoBackup = date;
-                                        Firebird.AlterarDataUltimoBackup(date); 
+                                        Firebird.AlterarDataUltimoBackup(date);
                                         Firebird.SaveBackup(backup);
                                     }
                                 }
@@ -176,7 +176,7 @@ namespace Version_01___Windows_Forms
                         }
                         else
                         {
-                            
+
                         }
                     }
                 }
@@ -276,8 +276,8 @@ namespace Version_01___Windows_Forms
                     }
 
                     Reconn.Restart();
-                    Thread t = new Thread(Reconnection);
-                    t.Start();
+                    //Thread t = new Thread(Reconnection);
+                    //t.Start();
                 }
                 else if (!isConnected && !isCommunicating)
                 {
@@ -389,20 +389,20 @@ namespace Version_01___Windows_Forms
             return true;
         }
 
-        private void Reconnection()
-        {
-            while (isCommunicating)
-            {
-                if (Reconn.ElapsedMilliseconds > 120000)
-                {
-                    isCommunicating = false;
-                    UpdateControls();
-                    MessageBox.Show("Conexão perdida!\nVerifique se o aparelho está conectado ao computador ou ligado e tente novamente!", "Conexão",
-                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    //Application.Restart();
-                }
-            }
-        }
+        //private void Reconnection()
+        //{
+        //    while (isCommunicating)
+        //    {
+        //        if (Reconn.ElapsedMilliseconds > 120000)
+        //        {
+        //            isCommunicating = false;
+        //            UpdateControls();
+        //            MessageBox.Show("Conexão perdida!\nVerifique se o aparelho está conectado ao computador ou ligado e tente novamente!", "Conexão",
+        //                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        //            //Application.Restart();
+        //        }
+        //    }
+        //}
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -528,6 +528,14 @@ namespace Version_01___Windows_Forms
                 new Thread(() => { Thread.Sleep(500); Command130(); Thread.Sleep(500); Command128(); }).Start();
                 // new Thread(() => { Thread.Sleep(700); Command130(); }).Start();
                 return;
+            }
+
+            else if (Received[0] == 255)
+            {
+                MessageBox.Show("Conexão perdida!\nVerifique se o aparelho está conectado ao computador ou ligado e tente novamente!", "Conexão",
+                       MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                isCommunicating = false;
+                UpdateControls();
             }
 
 
@@ -1120,14 +1128,23 @@ namespace Version_01___Windows_Forms
 
         public void WriteCommand(List<byte> list)
         {
-            if (isWaitingAnswer) return;
+            try
+            {
+                if (isWaitingAnswer) return;
 
-            lastCommand.Clear();
-            lastCommand.AddRange(list);
+                lastCommand.Clear();
+                lastCommand.AddRange(list);
 
-            serial.Write(list.ToArray(), 0, list.Count);
-            isReceivedAnswer = false;
-            CheckTimeout();
+                serial.Write(list.ToArray(), 0, list.Count);
+                isReceivedAnswer = false;
+                CheckTimeout();
+            }
+            catch
+            {
+                // foi colocado try/catch para não dar nenhuma exception 
+                // caso não tenha nenhuma porta conectada e/ou o usuário 
+                // desconectou antes de fechar o programa
+            }
         }
         private void btnReset_Click(object sender, EventArgs e)
         {
