@@ -18,9 +18,6 @@ namespace Version_01___Windows_Forms
 {
     public partial class Form1 : Form
     {
-        // Criar um stopwatch para ver à quanto tempo não foi enviado nenhuma mensagem (Na função WriteCommand), e se passar mais tempo do que leva para o
-        // aparelho desligar automaticamente (2 minutos), muda a lbConnStatus.        
-
         public Form1()
         {
             InitializeComponent();
@@ -275,7 +272,7 @@ namespace Version_01___Windows_Forms
                         btnReset.Enabled = true;
                     }
 
-                    Reconn.Restart();
+                    //Reconn.Restart();
                     //Thread t = new Thread(Reconnection);
                     //t.Start();
                 }
@@ -536,6 +533,18 @@ namespace Version_01___Windows_Forms
                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 isCommunicating = false;
                 UpdateControls();
+
+
+                if (isCommunicating == false)
+                {
+                    CommandAA();
+
+                    if (Received[0] == 170)
+                    {
+                        Thread.Sleep(1500);
+                        isCommunicating = true;
+                    }
+                }
             }
 
 
@@ -829,6 +838,11 @@ namespace Version_01___Windows_Forms
         public void Command89()
         {
             var send = new List<byte>() { 137 };
+            WriteCommand(send);
+        } 
+        public void CommandAA()
+        {
+            var send = new List<byte>() { 170 };
             WriteCommand(send);
         }
 
