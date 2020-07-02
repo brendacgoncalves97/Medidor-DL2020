@@ -27,7 +27,7 @@ namespace Version_01___Windows_Forms
                     }
                     return null;
                 }
-                catch (Exception error)
+                catch
                 {
                     return null;
                 }
@@ -527,7 +527,7 @@ namespace Version_01___Windows_Forms
                         dr.Close();
                         return config;
                     }
-                    catch (Exception error)
+                    catch
                     {
                         return null;
                     }

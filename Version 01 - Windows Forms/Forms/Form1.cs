@@ -533,15 +533,14 @@ namespace Version_01___Windows_Forms
                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 isCommunicating = false;
                 UpdateControls();
-
+                
 
                 if (isCommunicating == false)
                 {
                     CommandAA();
-
                     if (Received[0] == 170)
                     {
-                        Thread.Sleep(1500);
+                        //Thread.Sleep(1500);
                         isCommunicating = true;
                     }
                 }
@@ -580,7 +579,7 @@ namespace Version_01___Windows_Forms
                     Write[6] = "Ter.";
                     break;
                 case "04":
-                    Write[6] = "Quar.";
+                    Write[6] = "Qua.";
                     break;
                 case "05":
                     Write[6] = "Qui.";
@@ -750,41 +749,42 @@ namespace Version_01___Windows_Forms
         }
         private void Command81()
         {
+            // retirado por enquanto, para ser feito mais tarde
             //if (Received.Count != 2) return;
             //var checksum = 0;
             //for (var i = 1; i < Commands81.Count; i++)
             //{
             //checksum ^= Commands81[i];
-            string Horario = DateTime.Now.ToShortTimeString();
-            string Data = DateTime.Now.ToShortDateString();
-            string Dia = DateTime.Now.DayOfWeek.ToString();
-            int DiaIndex = 0;
+            //string Horario = DateTime.Now.ToShortTimeString();
+            //string Data = DateTime.Now.ToShortDateString();
+            //string Dia = DateTime.Now.DayOfWeek.ToString();
+            //int DiaIndex = 0;
 
-            switch (Dia)
-            {
-                case "Dom.":
-                    DiaIndex = 0;
-                    break;
-                case "Seg.":
-                    DiaIndex = 1;
-                    break;
-                case "Ter.":
-                    DiaIndex = 2;
-                    break;
-                case "Qua.":
-                    DiaIndex = 3;
-                    break;
-                case "Qui.":
-                    DiaIndex = 4;
-                    break;
-                case "Sex.":
-                    DiaIndex = 5;
-                    break;
-                case "Sab.":
-                    DiaIndex = 6;
-                    break;
-            }
-            lblDataEquip.Text = Data + " " + Horario;
+            //switch (Dia)
+            //{
+            //    case "Dom.":
+            //        DiaIndex = 0;
+            //        break;
+            //    case "Seg.":
+            //        DiaIndex = 1;
+            //        break;
+            //    case "Ter.":
+            //        DiaIndex = 2;
+            //        break;
+            //    case "Qua.":
+            //        DiaIndex = 3;
+            //        break;
+            //    case "Qui.":
+            //        DiaIndex = 4;
+            //        break;
+            //    case "Sex.":
+            //        DiaIndex = 5;
+            //        break;
+            //    case "Sab.":
+            //        DiaIndex = 6;
+            //        break;
+            //}
+            //lblDataEquip.Text = Data + " " + Horario;
             //}
             //    checksum ^= Commands81[i];
 
@@ -869,7 +869,7 @@ namespace Version_01___Windows_Forms
                 return DataInicio;
 
             }
-            catch (Exception e)
+            catch
             {
                 MessageBox.Show($"Data da leitura está inválida!", "Erro!", MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
@@ -1317,7 +1317,6 @@ namespace Version_01___Windows_Forms
             CheckUser();
         }
 
-        Calendario formCalendario;
 
         // Ocorre também de modo automático
         //private void dataEHoraToolStripMenuItem_Click(object sender, EventArgs e)
