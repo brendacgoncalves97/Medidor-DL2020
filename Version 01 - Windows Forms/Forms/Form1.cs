@@ -533,14 +533,14 @@ namespace Version_01___Windows_Forms
                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 isCommunicating = false;
                 UpdateControls();
-                
 
                 if (isCommunicating == false)
                 {
                     CommandAA();
+
                     if (Received[0] == 170)
                     {
-                        //Thread.Sleep(1500);
+                        Thread.Sleep(1500);
                         isCommunicating = true;
                     }
                 }
@@ -839,11 +839,11 @@ namespace Version_01___Windows_Forms
         {
             var send = new List<byte>() { 137 };
             WriteCommand(send);
-        } 
+        }
         public void CommandAA()
         {
-            var send = new List<byte>() { 170 };
-            WriteCommand(send);
+            var sendAgain = new List<byte>() { 170 };
+            WriteCommand(sendAgain);
         }
 
         private string GetDate(List<byte> list)
